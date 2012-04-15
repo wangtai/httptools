@@ -87,7 +87,10 @@ class ConnectHttp(object):
         '''
         '''
         self.headers.update(headers)
-        req = urllib2.Request(url+'?'+urllib.urlencode(params),None, self.headers)
+        if params == None :
+            req = urllib2.Request(url, None, self.headers)
+        else:
+            req = urllib2.Request(url, urllib.urlencode(params), self.headers)
         if ('GET' == method):
             req.get_method = lambda: 'GET'
 
@@ -99,7 +102,6 @@ class ConnectHttp(object):
         [logging.debug('cookie:'+str((v.name, v.value))) for v in self._cookieJar ]
         operate = self._opener.open(req)
         #logging.debug('response:'+''.join(operate))
-    
         self.saveCookie()
         return operate
 
